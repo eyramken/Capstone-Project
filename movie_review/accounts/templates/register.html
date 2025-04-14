@@ -1,0 +1,162 @@
+{% extends 'main.html' %}
+
+{% load static %}
+
+{% block title %} Register - Movie Review Website {% endblock title %}
+
+{% block content %}
+<div class="min-h-screen bg-cover bg-center bg-no-repeat flex items-center justify-center"
+     style="background-image: url('{% static 'images/bg_image.jpg' %}');">
+
+  <main class="w-full lg:w-3/5 p-5">
+    <!-- existing content stays unchanged -->
+>
+    <!-- Display any error messages -->
+    {% if messages %}
+      {% for message in messages %}
+        <p class="text-red-500 font-semibold mb-2">{{ message }}</p>
+      {% endfor %}
+    {% endif %}
+
+    <form 
+      action="" 
+      method="post" 
+      enctype="multipart/form-data"
+      class="bg-pLightPurple text-gray-300 flex flex-col gap-4 w-full rounded-xl shadow-xl p-5"
+    >
+      {% csrf_token %}
+      <p class="text-center font-semibold text-2xl text-pgreen">
+        Create an account for free
+      </p>
+
+      <!-- First name -->
+      <div class="flex flex-col gap-2">
+        <label for="firstname">First Name</label>
+        <input
+          type="text"
+          name="first_name"
+          id="first_name"
+          class="text-white bg-pgray/50 focus:outline-none focus:border focus:border-pgreen font-normal w-full rounded border border-white/30 pl-3 h-10"
+        />
+      </div>
+
+      <!-- Last name -->
+      <div class="flex flex-col gap-2">
+        <label for="lastname">Last Name</label>
+        <input
+          type="text"
+          name="last_name"
+          id="last_name"
+          class="text-white bg-pgray/50 focus:outline-none focus:border focus:border-pgreen font-normal w-full rounded border border-white/30 pl-3 h-10"
+        />
+      </div>
+
+      <!-- Username -->
+      <div class="flex flex-col gap-2">
+        <label for="username">Username</label>
+        <input
+          type="text"
+          name="username"
+          id="username"
+          class="text-white bg-pgray/50 focus:outline-none focus:border focus:border-pgreen font-normal w-full rounded border border-white/30 pl-3 h-10"
+        />
+      </div>
+
+      <!-- Email -->
+      <div class="flex flex-col gap-2">
+        <label for="email">Email</label>
+        <input
+          type="email"
+          name="email"
+          id="email"
+          class="text-white bg-pgray/50 focus:outline-none focus:border focus:border-pgreen font-normal w-full rounded border border-white/30 pl-3 h-10"
+        />
+      </div>
+
+      <!-- Password -->
+      <div class="flex flex-col gap-2">
+        <label for="password">Password</label>
+        <input
+          type="password"
+          name="password"
+          id="password"
+          class="text-white bg-pgray/50 focus:outline-none focus:border focus:border-pgreen font-normal w-full rounded border border-white/30 pl-3 h-10"
+        />
+      </div>
+
+      <!-- Password Repeat -->
+      <div class="flex flex-col gap-2">
+        <label for="password2">Repeat Password</label>
+        <input
+          type="password"
+          name="password2"
+          id="password2"
+          class="text-white bg-pgray/50 focus:outline-none focus:border focus:border-pgreen font-normal w-full rounded border border-white/30 pl-3 h-10"
+        />
+      </div>
+
+      <!-- Avatar Upload with Preview -->
+      <div class="flex flex-col gap-2">
+        <label for="avatar">Profile Picture</label>
+        <input
+          type="file"
+          name="avatar"
+          id="avatar"
+          accept="image/*"
+          class="text-white bg-pgray/50"
+          onchange="previewAvatar(event)"
+        />
+        <div class="mt-2 w-32 h-32 rounded-full overflow-hidden border border-white/30">
+          <img id="avatar-preview" src="{% static 'user.jpg' %}" alt="Preview" class="w-full h-full object-cover" />
+        </div>
+      </div>
+
+      <!-- Submit and Reset -->
+      <div class="flex gap-2">
+        <button 
+          type="submit" 
+          class="py-1 px-6 text-white bg-gradient-to-br from-orangeOne to-orangeTwo rounded-xl"
+        >
+          Submit
+        </button>
+        <button 
+          type="reset" 
+          class="py-1 px-6 bg-pgreen text-white rounded-xl"
+        >
+          Reset
+        </button>
+      </div>
+
+      <p>
+        Already have an account? &nbsp;
+        <a href="{% url 'login' %}" class="font-bold underline">Login</a>
+      </p>
+    </form>
+  </main>
+</div>
+
+<!-- Avatar Preview Script -->
+<script>
+  function previewAvatar(event) {
+    const input = event.target;
+    const preview = document.getElementById('avatar-preview');
+    const file = input.files[0];
+
+    if (file && file.type.startsWith('image/')) {
+      const reader = new FileReader();
+      reader.onload = e => {
+        preview.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    } else {
+      preview.src = "{% static 'user.jpg' %}";
+    }
+  }
+</script>
+</main>
+</div>
+
+{% endblock content %}
+
+
+

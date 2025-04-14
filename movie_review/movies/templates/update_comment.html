@@ -1,0 +1,59 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Update Comment</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}" />
+  </head>
+  <body class="bg-pgray min-h-screen flex flex-col items-center justify-center">
+    {% include 'main_navbar.html' %}
+
+    <main class="p-5 w-full max-w-xl">
+      <form method="POST" class="p-6 bg-white text-black shadow-md rounded-2xl flex flex-col gap-4">
+        {% csrf_token %}
+
+      <!-- Avatar Display -->
+      <div class="flex justify-center mb-4">
+        <div class="w-20 h-20 md:w-24 md:h-24 rounded-full overflow-hidden border-2 border-pgreen shadow-lg">
+          <img
+            src="{% if profile.avatar %}{{ profile.avatar.url }}{% else %}{% static 'user.jpg' %}{% endif %}"
+            alt="{{ request.user.username }}'s avatar"
+            class="w-full h-full object-cover"
+          />
+        </div>
+      </div>
+
+        <!-- Heading and Back -->
+        <h1 class="text-center text-xl font-semibold text-pgreen">Update Comment</h1>
+        <a href="{{ request.META.HTTP_REFERER }}" class="bg-pgreen text-white px-4 py-1 rounded w-fit text-sm">
+          ← Go Back
+        </a>
+
+        <!-- Error Handling -->
+        {{ form.non_field_errors }}
+
+        <!-- Fields -->
+        {% for field in form %}
+        <div class="flex flex-col gap-1">
+          <label for="{{ field.id_for_label }}" class="text-sm font-medium text-pgreen">
+            {{ field.label }}
+          </label>
+          {{ field }}
+          {% if field.errors %}
+            <p class="text-red-500 text-sm mt-1">{{ field.errors.0 }}</p>
+          {% endif %}
+        </div>
+        {% endfor %}
+
+        <!-- Submit Button -->
+        <button type="submit"
+                class="bg-pgreen hover:bg-pgreen/90 text-white font-semibold rounded-xl px-6 py-2 transition duration-150 ease-in-out shadow text-sm">
+          Save Changes
+        </button>
+      </form>
+    </main>
+  </body>
+</html>
